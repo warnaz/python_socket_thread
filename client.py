@@ -1,35 +1,21 @@
 import socket
-import concurrent.futures
-from utils import port, host
+import threading
+import sys
 
+host = input("Host: ")
+port = int(input("Port: "))
 
-def client():
-    # Создание объекта сокета
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+try:
+    # Подключаемся к серверу
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect((host, port))
+    print(f"[CLIENT] Listening on {host}: {port}")
+except:
+    print("Невозможно подключиться к серверу. Проверьте правильность указания хоста и порта")
+    input("Press enter to quit")
+    sys.exit(0)
 
-    # Подключение к серверу
-    server_address = (host, port)
-    client_socket.connect(server_address)
-
-    # Отправка данных на сервер
-    while True:
-        try:
-            message = input('Введите сообщение: ')
-            client_socket.sendall(message.encode())
-
-            if message in ('exit', 'break', 'quit', 'q'):
-                break
-        except:
-            break
-
-    # Закрытие соединения
-    client_socket.close()
-
-
-# Создание пула потоков
-with concurrent.futures.ThreadPoolExecutor(max_workers=100) as executor:
-    # Запуск клиентов
-    futures = [executor.submit(client) for _ in range(100)]
-
-    # Ожидание завершения всех клиентов
-    concurrent.futures.wait(futures)
+while True:
+    # Клиент отправляет сообщение
+    message = input("Введите сообщение: ")
+    sock.sendall(str.encode(message))
