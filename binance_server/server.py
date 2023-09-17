@@ -1,6 +1,6 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from pydantic import BaseModel
-import httpx
+
 
 app = FastAPI()
 
@@ -16,7 +16,7 @@ async def process_data(request_data: RequestData):
 
     # Обрабатываем данные
     from stream import main
-    main()
+    main(data)
 
     return {"message": "Данные обработаны и успешно отправлены"}
 

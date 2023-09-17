@@ -1,5 +1,5 @@
 import click
-import creds
+import _creds
 import concurrent.futures
 from get_client import get_spot_client
 
@@ -7,7 +7,10 @@ def send_order():
     # Размещение ордера
     click.secho("Отправка Заявки", fg="red")
 
-    client = get_spot_client()
+    api_key = _creds.api_key
+    secret_key = _creds.secret_key
+
+    client = get_spot_client(api_key, secret_key)
 
     r = client.depth(symbol='BTCBUSD', limit=1)
     best_buy = r.get('bids')[-1][0]

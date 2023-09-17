@@ -11,7 +11,7 @@ pd.set_option('display.width', 1000)
 from binance.lib.utils import config_logging
 config_logging(logging, logging.CRITICAL)
 
-def get_spot_client():
+def get_spot_client(api_key, secret_key):
     """
     Функция для инициализации спотового клиента
     для Тестнета binance
@@ -19,6 +19,6 @@ def get_spot_client():
     """
     return Spot(
         base_url='https://testnet.binance.vision',
-        key=_creds.api_key_testnet,
-        secret=_creds.sec_key_testnet,
+        key=api_key,
+        secret=secret_key,
     )
